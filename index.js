@@ -30,32 +30,4 @@ var restaurantSchema = new mongoose.Schema({
 //Model creation
 var hotelModel = new mongoose.model('hotel', hotelSchema);
 var restaurantModel = new mongoose.model('restaurant', restaurantSchema);
-// instannt creation
-var address = new AddressModel({
-streetName: 'rue de Charonne',
-streetNumber:'177',
-postCode: '75011',
-city: 'Paris'
-});
-address.save(function(err, addressDb){
-    console.log('err', err);
-    console.log('adressDb', addressDb);
-     
-    var student = new StudentModel({
-        firstName: 'Marion',
-        surname: 'Cottilard',
-        address: addressDb._id
-});
-address.save(function(err, addressDb){
-    console.log('err', err);
-    console.log('adressDb', addressDb);
-    var studentId = studentId;
-    StudentModel
-        .findOne({_id: studentId})
-        .populate('adress')
-        .exec(function (err, finalStudent) {
-        console.log('err', err);
-        console.log('finalStudent', finalStudent);
-        });
-    });
-});  
+
