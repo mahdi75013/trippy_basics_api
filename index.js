@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 //Connection
-mongoose.connect("mongodb://localhost:27017/mongoose_populate", {
+mongoose.connect("mongodb://localhost:27017/trippy_basics_api", {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true
