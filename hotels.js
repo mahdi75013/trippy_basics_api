@@ -12,4 +12,5 @@ var hotelSchema = new mongoose.Schema({
 });
 
 var hotelModel = new mongoose.model('hotel', hotelSchema);
+
 module.

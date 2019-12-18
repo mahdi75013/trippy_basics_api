@@ -1,33 +1,50 @@
 var express = require('express')
 var app = express()
 var bodyParser = require("body-parser");
-var exphbs = require('express-handlebars');
-var user = require('./controllers/users');
+// var exphbs = require('express-handlebars');
+// var user = require('./controllers/users');
 var mongoose = require('mongoose');
 var port = 3000;
 
 
-mongoose.connect("mongodb://localhost:27017/trippy_basics_api", {
-  useCreateIndex: true,
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+var schema = { name: String };
 
+var Schema = new mongoose.Schema(schema);
+var HotelModel = mongoose.model("Hotel", Schema);
+  mongoose.connect("mongodb://localhost:27017/trippy_basics", {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+  
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.engine('handlebars', exphbs.engine);
-app.set('view engine', 'handlebars');
-
-app.get("/", function (req, res) {
-    console.log("GET /");
-    res.send("home");
+// Create Hotels
+app.post("/hotels", function(req, res) {
+    var hotel = new HotelModel({
+        name: req.body.name || ""
+    });
+    hotel.save(function(err, hotelDb) {
+        console.log('this is an error ' + err);
+        console.log('this is a hotelDb' + hotelDb);
+        res.json({
+            success: true,
+            data: hotelDb
+        });
+    });
 });
 
-app.listen(port, function () {
-    console.log("Server started");
-});
+  //Read Hotels
+ app.get("/hotels", function(req, res) {
+    HotelModel.find({}, function(err, hotelDb) {
+      res.json({
+        success: true,
+        data: hotelDb
+      });
+    });
+  });
 
-
-
-
+  app.listen(port, function () {
+      console.log("Server is started in" + port)
+  })
