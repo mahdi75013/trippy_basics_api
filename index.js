@@ -1,33 +1,33 @@
-var mongoose = require("mongoose");
-//Connection
+var express = require('express')
+var app = express()
+var bodyParser = require("body-parser");
+var exphbs = require('express-handlebars');
+var user = require('./controllers/users');
+var mongoose = require('mongoose');
+var port = 3000;
+
+
 mongoose.connect("mongodb://localhost:27017/trippy_basics_api", {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
 
-// Schema Definition
-var hotelSchema = new mongoose.Schema({
-    name: String,
-    address:{ type: mongoose.Types.ObjectId, ref: 'Address'},
-    city: String,
-    country: String,
-    stars: Number,
-    hasSpa: Boolean,
-    priceCategory: Number 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.engine('handlebars', exphbs.engine);
+app.set('view engine', 'handlebars');
+
+app.get("/", function (req, res) {
+    console.log("GET /");
+    res.send("home");
 });
 
-var restaurantSchema = new mongoose.Schema({
-    name: String,
-    address:{ type: mongoose.Types.ObjectId, ref: 'Address'},
-    city: String,
-    country: String,
-    stars: Number,
-    cuisine: String,
-    priceCategory: Number
+app.listen(port, function () {
+    console.log("Server started");
 });
 
-//Model creation
-var hotelModel = new mongoose.model('hotel', hotelSchema);
-var restaurantModel = new mongoose.model('restaurant', restaurantSchema);
+
+
 
