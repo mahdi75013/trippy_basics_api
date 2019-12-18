@@ -4,8 +4,11 @@ var bodyParser = require("body-parser");
 // var exphbs = require('express-handlebars');
 // var user = require('./controllers/users');
 var mongoose = require('mongoose');
+var hotels = require('./hotels');
 var port = 3000;
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 var schema = { name: String };
 
@@ -17,9 +20,6 @@ var HotelModel = mongoose.model("Hotel", Schema);
     useUnifiedTopology: true
   });
   
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
 // Create Hotels
 app.post("/hotels", function(req, res) {
     var hotel = new HotelModel({
