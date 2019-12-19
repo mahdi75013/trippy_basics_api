@@ -2,12 +2,16 @@ var express = require('express')
 var app = express()
 var bodyParser = require("body-parser");
 // var exphbs = require('express-handlebars');
-// var user = require('./controllers/users');
 var HotelModel = require('./models/hotels');
+var hotelsRoutes = require('./controllers/hotels');
+var restaurantsRoutes = require('./controllers/restaurants');
+
 var port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use('/hotels', hotelsRoutes);
+app.use("/restaurants", restaurantsRoutes);
 
 // Create Hotels
 app.post("/hotels", function (req, res) {
