@@ -1,14 +1,38 @@
 //Controller of Hotels
-
 var express = require('express');
-var router = express.Router();
+var HotelModel = require('./models/hotels');
 
-router.get('/hotels', function(req, res) {
-  res.send('list of hotels');
+// Create Hotels
+app.post("/hotels", function (req, res) {
+  var hotel = new HotelModel({
+    name: req.body.name || "",
+    address: req.body.address || "",
+    city: req.body.city || "",
+    country: req.body.country || "",
+    stars: parseInt(req.body.stars) || 0,
+    hasSpa: Boolean(req.body.hasSpa) || false,
+    hasPool: Boolean(req.body.hasPool) || false,
+    priceCategory: parseInt(req.body.priceCategory) || 0
 });
 
-router.get('/hotels:id', function(req, res) {
-  res.send('hotel id: ' + req.params.id);
+  hotel.save(function(err, hotelDb) {
+    console.log('this is an error ' + err);
+    console.log('this is a hotelDb' + hotelDb);
+      res.json({
+          success: true,
+          data: hotelDb
+      });
+  });
 });
 
-module.exports = router;
+  //Read Hotels
+ app.get("/hotels", function(req, res) {
+    HotelModel.find({}, function(err, hotelDb) {
+      res.json({
+        success: true,
+        data: hotelDb
+      });
+    });
+  });
+
+module.exports = app;
